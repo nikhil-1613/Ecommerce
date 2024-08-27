@@ -1,0 +1,58 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+.card {
+    @apply shadow-md rounded overflow-hidden bg-white mb-8;
+}
+
+.card-header {
+    @apply bg-gray-800 py-3 px-4;
+}
+
+.card-header-flex {
+    @apply flex justify-between items-center;
+}
+
+.btn-danger {
+    @apply bg-red-600 text-white px-4 py-2 rounded;
+}
+
+.card-body {
+    @apply p-0;
+}
+
+.cart-empty {
+    @apply text-center py-8;
+}
+
+.cart-empty i {
+    @apply text-5xl text-gray-500 mb-2;
+}
+
+.cart-empty p {
+    @apply text-gray-600;
+}
+
+.cart-table th,
+.cart-table td {
+    @apply py-2 px-4 text-sm text-left;
+}
+
+.prdct-delete {
+    @apply w-10 h-10 bg-red-200 text-red-600 flex justify-center items-center rounded;
+}
+
+.prdct-qty-container {
+    @apply flex items-center;
+}
+
+.qty-input-box {
+    @apply max-w-20 px-2 py-1 border border-gray-300 rounded text-center;
+}
+
+.prdct-qty-btn {
+    @apply w-10 h-10 bg-blue-200 text-blue-600 flex justify-center items-center rounded;
+}
+
+.amount {
+    @apply font-bold;
+}

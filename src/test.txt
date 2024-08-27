@@ -1,0 +1,737 @@
+// import React, { useState, useEffect } from 'react';
+// import { collection, addDoc, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
+// import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+// import { db, storage } from '../firebase/firebaseConfig';
+// import { toast } from 'react-toastify';
+
+// export default function AddProducts() {
+//   const [product, setProduct] = useState({
+//     name: '',
+//     description: '',
+//     price: '',
+//     stock: '',
+//   });
+//   const [image, setImage] = useState(null);
+//   const [products, setProducts] = useState([]);
+//   const [category, setCategory] = useState('seeds');
+
+//   useEffect(() => {
+//     const unsubscribe = onSnapshot(collection(db, 'products'), (snapshot) => {
+//       const productsData = snapshot.docs.map((doc) => ({
+//         id: doc.id,
+//         ...doc.data(),
+//       }));
+//       setProducts(productsData);
+//     });
+
+//     return () => unsubscribe();
+//   }, []);
+
+//   const handleChange = (e) => {
+//     setProduct({
+//       ...product,
+//       [e.target.name]: e.target.value,
+//     });
+//   };
+
+//   const handleCategoryChange = (e) => {
+//     setCategory(e.target.value);
+//   };
+
+//   const handleImageChange = (e) => {
+//     if (e.target.files[0]) {
+//       setImage(e.target.files[0]);
+//     }
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     if (!image) {
+//       toast.error('Please select an image');
+//       return;
+//     }
+
+//     try {
+//       const imageRef = ref(storage, `products/${image.name}`);
+//       await uploadBytes(imageRef, image);
+//       const imageUrl = await getDownloadURL(imageRef);
+
+//       await addDoc(collection(db, 'products'), {
+//         name: product.name,
+//         description: product.description,
+//         price: parseFloat(product.price),
+//         category: category,
+//         stock: parseInt(product.stock),
+//         imageUrl: imageUrl,
+//       });
+//       toast.success('Product added successfully');
+//       setProduct({
+//         name: '',
+//         description: '',
+//         price: '',
+//         stock: '',
+//       });
+//       setImage(null);
+//       setCategory('seeds');
+//     } catch (error) {
+//       console.error('Error adding product: ', error);
+//       toast.error('Error adding product');
+//     }
+//   };
+
+//   const handleDelete = async (id) => {
+//     try {
+//       await deleteDoc(doc(db, 'products', id));
+//       toast.success('Product deleted successfully');
+//     } catch (error) {
+//       console.error('Error deleting product: ', error);
+//       toast.error('Error deleting product');
+//     }
+//   };
+
+//   return (
+//     <div className="max-w-md mx-auto mt-10">
+//       <h1 className="text-2xl font-bold mb-6">Add Product</h1>
+//       <form onSubmit={handleSubmit} className="bg-[#45B8AC] shadow-md rounded px-8 pt-6 pb-8 mb-4">
+//         <div className="mb-4">
+//           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+//             Name
+//           </label>
+//           <input
+//             type="text"
+//             name="name"
+//             value={product.name}
+//             onChange={handleChange}
+//             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+//             required
+//           />
+//         </div>
+//         <div className="mb-4">
+//           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
+//             Description
+//           </label>
+//           <textarea
+//             name="description"
+//             value={product.description}
+//             onChange={handleChange}
+//             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+//             required
+//           ></textarea>
+//         </div>
+//         <div className="mb-4">
+//           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="price">
+//             Price
+//           </label>
+//           <input
+//             type="number"
+//             name="price"
+//             value={product.price}
+//             onChange={handleChange}
+//             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+//             required
+//           />
+//         </div>
+//         <div className="mb-4">
+//           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">
+//             Category
+//           </label>
+//           <select
+//             name="category"
+//             value={category}
+//             onChange={handleCategoryChange}
+//             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+//             required
+//           >
+//             <option value="seeds">Seeds</option>
+//             <option value="fertilizers">Fertilizers</option>
+//             <option value="sprayers">Sprayers</option>
+//             <option value="garden">Garden</option>
+//           </select>
+//         </div>
+//         <div className="mb-4">
+//           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="stock">
+//             Stock
+//           </label>
+//           <input
+//             type="number"
+//             name="stock"
+//             value={product.stock}
+//             onChange={handleChange}
+//             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+//             required
+//           />
+//         </div>
+//         <div className="mb-4">
+//           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
+//             Image
+//           </label>
+//           <input
+//             type="file"
+//             onChange={handleImageChange}
+//             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+//             required
+//           />
+//         </div>
+//         <div className="flex items-center justify-between">
+//           <button
+//             type="submit"
+//             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+//           >
+//             Add Product
+//           </button>
+//         </div>
+//       </form>
+//       <h2 className="text-xl font-bold mb-4">Products List</h2>
+//       <ul>
+//         {products.map((product) => (
+//           <li key={product.id} className="mb-4">
+//             <div className="flex justify-between items-center bg-gray-100 p-4 rounded">
+//               <div>
+//                 <h3 className="text-lg font-bold">{product.name}</h3>
+//                 <p>{product.description}</p>
+//                 <p>${product.price.toFixed(2)}</p>
+//                 <p>Category: {product.category}</p>
+//                 <p>Stock: {product.stock}</p>
+//               </div>
+//               <button
+//                 onClick={() => handleDelete(product.id)}
+//                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+//               >
+//                 Delete
+//               </button>
+//             </div>
+//           </li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }
+
+// import React, { useState } from 'react';
+// import { collection, addDoc } from 'firebase/firestore';
+// import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+// import { db, storage } from '../firebase/firebaseConfig';
+// import { toast } from 'react-toastify';
+
+// export default function AddProducts() {
+//   const [product, setProduct] = useState({
+//     name: '',
+//     description: '',  
+//     price: '',
+//     category: '',
+//     stock: '',
+//   });
+//   const [image, setImage] = useState(null);
+
+//   const handleChange = (e) => {
+//     setProduct({
+//       ...product,
+//       [e.target.name]: e.target.value,
+//     });
+//   };
+
+//   const handleImageChange = (e) => {
+//     if (e.target.files[0]) {
+//       setImage(e.target.files[0]);
+//     }
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     if (!image) {
+//       toast.error('Please select an image');
+//       return;
+//     }
+
+//     try {
+//       const imageRef = ref(storage, `products/${image.name}`);
+//       await uploadBytes(imageRef, image);
+//       const imageUrl = await getDownloadURL(imageRef);
+
+//       await addDoc(collection(db, 'products'), {
+//         name: product.name,
+//         description: product.description,
+//         price: parseFloat(product.price),
+//         category: product.category,
+//         stock: parseInt(product.stock),
+//         imageUrl: imageUrl,
+//       });
+//       toast.success('Product added successfully');
+//       setProduct({
+//         name: '',
+//         description: '',
+//         price: '',
+//         category: '',
+//         stock: '',
+//       });
+//       setImage(null);
+//     } catch (error) {
+//       console.error('Error adding product: ', error);
+//       toast.error('Error adding product');
+//     }
+//   };
+
+//   return (
+//     <div className="max-w-md mx-auto mt-10">
+//       <h1 className="text-2xl font-bold mb-6">Add Product</h1>
+//       <form onSubmit={handleSubmit} className="bg-[#45B8AC] shadow-md rounded px-8 pt-6 pb-8 mb-4">
+//         <div className="mb-4">
+//           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+//             Name
+//           </label>
+//           <input
+//             type="text"
+//             name="name"
+//             value={product.name}
+//             onChange={handleChange}
+//             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+//             required
+//           />
+//         </div>
+//         <div className="mb-4">
+//           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
+//             Description
+//           </label>
+//           <textarea
+//             name="description"
+//             value={product.description}
+//             onChange={handleChange}
+//             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+//             required
+//           ></textarea>
+//         </div>
+//         <div className="mb-4">
+//           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="price">
+//             Price
+//           </label>
+//           <input
+//             type="number"
+//             name="price"
+//             value={product.price}
+//             onChange={handleChange}
+//             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+//             required
+//           />
+//         </div>
+//         <div className="mb-4">
+//           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">
+//             Category
+//           </label>
+//           <input
+//             type="text"
+//             name="category"
+//             value={product.category}
+//             onChange={handleChange}
+//             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+//             required
+//           />
+//         </div>
+//         <div className="mb-4">
+//           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="stock">
+//             Stock
+//           </label>
+//           <input
+//             type="number"
+//             name="stock"
+//             value={product.stock}
+//             onChange={handleChange}
+//             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+//             required
+//           />
+//         </div>
+//         <div className="mb-4">
+//           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
+//             Image
+//           </label>
+//           <input
+//             type="file"
+//             onChange={handleImageChange}
+//             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+//             required
+//           />
+//         </div>
+//         <div className="flex items-center justify-between">
+//           <button
+//             type="submit"
+//             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+//           >
+//             Add Product
+//           </button>
+//         </div>
+//       </form>
+//     </div>
+//   );
+// }
+ three versions of add product
+// import React, { useState } from 'react';
+// import ProductCard from './ProductCard';
+// import toast from 'react-hot-toast';
+// import { useDispatch } from 'react-redux';
+// import { addToCart } from '../redux/features/CartSlice';
+
+// export default function Products() {
+//     const [selectedCategory, setSelectedCategory] = useState('All');
+//     const dispatch = useDispatch();
+
+//     const sendToCart = (product) => {
+//         dispatch(addToCart(product));
+//         toast.success("Item added In Your Cart");
+//     };
+
+//     const products = [
+//         {
+//             id: 1,
+//             category: 'Seeds',
+//             imageUrl: 'https://articles-1mg.gumlet.io/articles/wp-content/uploads/2016/12/seeds.jpg?compress=true&quality=80&w=640&dpr=2.6',
+//             name: 'Seeds',
+//             description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A nisi itaque alias earum, unde temporibus deleniti accusantium optio mollitia ex!",
+//             price: '20.00',
+//             rating: 4
+//         },
+//         {
+//             id: 2,
+//             category: 'Fertilizers',
+//             imageUrl: 'https://eos.com/wp-content/uploads/2023/11/components-of-different-types-of-fertilizers.jpg',
+//             name: 'Fertilizers',
+//             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A nisi itaque alias earum, unde temporibus deleniti accusantium optio mollitia ex!',
+//             price: '30.00',
+//             rating: 5
+//         },
+//         {
+//             id: 3,
+//             category: 'Sprayers',
+//             imageUrl: 'https://eos.com/wp-content/uploads/2023/11/components-of-different-types-of-fertilizers.jpg',
+//             name: 'Sprayers',
+//             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A nisi itaque alias earum, unde temporibus deleniti accusantium optio mollitia ex!',
+//             price: '25.00',
+//             rating: 3
+//         },
+//         {
+//             id: 4,
+//             category: 'Seeds',
+//             imageUrl: 'https://articles-1mg.gumlet.io/articles/wp-content/uploads/2016/12/seeds.jpg?compress=true&quality=80&w=640&dpr=2.6',
+//             name: 'More Seeds',
+//             description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A nisi itaque alias earum, unde temporibus deleniti accusantium optio mollitia ex!",
+//             price: '20.00',
+//             rating: 4
+//         },
+//         {
+//             id: 5,
+//             category: 'Fertilizers',
+//             imageUrl: 'https://eos.com/wp-content/uploads/2023/11/components-of-different-types-of-fertilizers.jpg',
+//             name: 'More Fertilizers',
+//             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A nisi itaque alias earum, unde temporibus deleniti accusantium optio mollitia ex!',
+//             price: '30.00',
+//             rating: 5
+//         },
+//         {
+//             id: 6,
+//             category: 'Sprayers',
+//             imageUrl: 'https://eos.com/wp-content/uploads/2023/11/components-of-different-types-of-fertilizers.jpg',
+//             name: 'More Sprayers',
+//             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A nisi itaque alias earum, unde temporibus deleniti accusantium optio mollitia ex!',
+//             price: '25.00',
+//             rating: 3
+//         },
+//         {
+//             id: 7,
+//             category: 'Seeds',
+//             imageUrl: 'https://articles-1mg.gumlet.io/articles/wp-content/uploads/2016/12/seeds.jpg?compress=true&quality=80&w=640&dpr=2.6',
+//             name: 'More Seeds',
+//             description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A nisi itaque alias earum, unde temporibus deleniti accusantium optio mollitia ex!",
+//             price: '20.00',
+//             rating: 4
+//         },
+//         {
+//             id: 8,
+//             category: 'Fertilizers',
+//             imageUrl: 'https://eos.com/wp-content/uploads/2023/11/components-of-different-types-of-fertilizers.jpg',
+//             name: 'More Fertilizers',
+//             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A nisi itaque alias earum, unde temporibus deleniti accusantium optio mollitia ex!',
+//             price: '30.00',
+//             rating: 5
+//         },
+//         {
+//             id: 9,
+//             category: 'Sprayers',
+//             imageUrl: 'https://eos.com/wp-content/uploads/2023/11/components-of-different-types-of-fertilizers.jpg',
+//             name: 'More Sprayers',
+//             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A nisi itaque alias earum, unde temporibus deleniti accusantium optio mollitia ex!',
+//             price: '25.00',
+//             rating: 3
+//         },
+//         {
+//             id: 10,
+//             category: 'Seeds',
+//             imageUrl: 'https://articles-1mg.gumlet.io/articles/wp-content/uploads/2016/12/seeds.jpg?compress=true&quality=80&w=640&dpr=2.6',
+//             name: 'More Seeds',
+//             description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A nisi itaque alias earum, unde temporibus deleniti accusantium optio mollitia ex!",
+//             price: '20.00',
+//             rating: 4
+//         },
+//         {
+//             id: 11,
+//             category: 'Fertilizers',
+//             imageUrl: 'https://eos.com/wp-content/uploads/2023/11/components-of-different-types-of-fertilizers.jpg',
+//             name: 'More Fertilizers',
+//             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A nisi itaque alias earum, unde temporibus deleniti accusantium optio mollitia ex!',
+//             price: '30.00',
+//             rating: 5
+//         },
+//         {
+//             id: 12,
+//             category: 'Sprayers',
+//             imageUrl: 'https://eos.com/wp-content/uploads/2023/11/components-of-different-types-of-fertilizers.jpg',
+//             name: 'More Sprayers',
+//             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A nisi itaque alias earum, unde temporibus deleniti accusantium optio mollitia ex!',
+//             price: '25.00',
+//             rating: 3
+//         }
+//     ];
+
+
+//     const filteredProducts = selectedCategory === 'All'
+//         ? products
+//         : products.filter(product => product.category === selectedCategory);
+
+//         return (
+//             <div className="flex justify-center items-start py-20">
+//                 {/* Sidebar */}
+//                 <div className="w-64 bg-gradient-to-br from-purple-800 to-purple-900 rounded-lg p-6 mr-6">
+//                     <h2 className="text-white text-2xl font-bold mb-4">Categories</h2>
+//                     <ul>
+//                         <li className="mb-2">
+//                             <input
+//                                 type="radio"
+//                                 id="all"
+//                                 name="category"
+//                                 value="All"
+//                                 className="mr-2"
+//                                 checked={selectedCategory === 'All'}
+//                                 onChange={(e) => setSelectedCategory(e.target.value)}
+//                             />
+//                             <label htmlFor="all" className="text-white">All</label>
+//                         </li>
+//                         <li className="mb-2">
+//                             <input
+//                                 type="radio"
+//                                 id="seeds"
+//                                 name="category"
+//                                 value="Seeds"
+//                                 className="mr-2"
+//                                 checked={selectedCategory === 'Seeds'}
+//                                 onChange={(e) => setSelectedCategory(e.target.value)}
+//                             />
+//                             <label htmlFor="seeds" className="text-white">Seeds</label>
+//                         </li>
+//                         <li className="mb-2">
+//                             <input
+//                                 type="radio"
+//                                 id="fertilizers"
+//                                 name="category"
+//                                 value="Fertilizers"
+//                                 className="mr-2"
+//                                 checked={selectedCategory === 'Fertilizers'}
+//                                 onChange={(e) => setSelectedCategory(e.target.value)}
+//                             />
+//                             <label htmlFor="fertilizers" className="text-white">Fertilizers</label>
+//                         </li>
+//                         <li className="mb-2">
+//                             <input
+//                                 type="radio"
+//                                 id="sprayers"
+//                                 name="category"
+//                                 value="Sprayers"
+//                                 className="mr-2"
+//                                 checked={selectedCategory === 'Sprayers'}
+//                                 onChange={(e) => setSelectedCategory(e.target.value)}
+//                             />
+//                             <label htmlFor="sprayers" className="text-white">Sprayers</label>
+//                         </li>
+//                         <li className="mb-2">
+//                             <input
+//                                 type="radio"
+//                                 id="garden"
+//                                 name="category"
+//                                 value="Garden"
+//                                 className="mr-2"
+//                                 checked={selectedCategory === 'Garden'}
+//                                 onChange={(e) => setSelectedCategory(e.target.value)}
+//                             />
+//                             <label htmlFor="garden" className="text-white">Garden</label>
+//                         </li>
+//                     </ul>
+//                 </div>
+//                 {/* Product List or Message */}
+//                 <div className="grid grid-cols-3 gap-6">
+//                     {filteredProducts.length === 0 ? (
+//                         <p className="text-center text-red-500 text-3xl font-bold">No products found in the given category</p>
+//                     ) : (
+//                         filteredProducts.map((product) => (
+//                             <ProductCard
+//                                 key={product.id}
+//                                 imageUrl={product.imageUrl}
+//                                 name={product.name}
+//                                 rating={product.rating}
+//                                 address={product.description}
+//                                 price={product.price}
+//                                 onAddToCart={() => sendToCart(product)}
+//                             />
+//                         ))
+//                     )}
+//                 </div>
+//             </div>
+//         );
+    
+// }
+product list with static list
+
+// import React, { useEffect, useState } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { addToCart, removeToCart, removeSingleIteams, emptycartIteam } from '../redux/features/CartSlice';
+// import toast from 'react-hot-toast';
+// import './styles/CartStyle.css';
+
+// export default function Cart() {
+//     const carts = useSelector((state) => state.allCart.carts); // Ensure this matches your store configuration
+//     const [totalprice, setPrice] = useState(0);
+//     const [totalquantity, setTotalQuantity] = useState(0);
+//     const dispatch = useDispatch();
+
+//     const handleIncrement = (item) => {
+//         dispatch(addToCart(item));
+//     };
+
+//     const handleDecrement = (id) => {
+//         dispatch(removeToCart(id));
+//         toast.success("Item Removed From Your Cart");
+//     };
+
+//     const handleSingleDecrement = (item) => {
+//         dispatch(removeSingleIteams(item));
+//     };
+
+//     const emptycart = () => {
+//         dispatch(emptycartIteam());
+//         toast.success("Your Cart is Empty");
+//     };
+
+//     const total = () => {
+//         let totalPrice = 0;
+//         carts.forEach((ele) => {
+//             totalPrice += ele.price * ele.qnty;
+//         });
+//         setPrice(totalPrice);
+//     };
+
+//     const countquantity = () => {
+//         let totalQuantity = 0;
+//         carts.forEach((ele) => {
+//             totalQuantity += ele.qnty;
+//         });
+//         setTotalQuantity(totalQuantity);
+//     };
+
+//     useEffect(() => {
+//         total();
+//         countquantity();
+//     }, [carts]);
+
+//     return (
+//         <div className="row justify-center mx-auto">
+//             <div className="col-md-8 mt-5 mb-5 cardsdetails">
+//                 <div className="card">
+//                     <div className="card-header bg-gray-800 py-3 px-4">
+//                         <div className="flex justify-between items-center">
+//                             <h5 className="text-white m-0">Cart Calculation {carts.length > 0 ? `(${carts.length})` : ""}</h5>
+//                             {carts.length > 0 && (
+//                                 <button className="btn btn-danger mt-0 btn-sm" onClick={emptycart}>
+//                                     <i className="fa fa-trash-alt mr-2"></i>
+//                                     <span>Empty Cart</span>
+//                                 </button>
+//                             )}
+//                         </div>
+//                     </div>
+//                     <div className="card-body p-0">
+//                         {carts.length === 0 ? (
+//                             <table className="table cart-table mb-0">
+//                                 <tbody>
+//                                     <tr>
+//                                         <td colSpan={6}>
+//                                             <div className="cart-empty">
+//                                                 <i className="fa fa-shopping-cart"></i>
+//                                                 <p>Your Cart Is Empty</p>
+//                                             </div>
+//                                         </td>
+//                                     </tr>
+//                                 </tbody>
+//                             </table>
+//                         ) : (
+//                             <table className="table cart-table mb-0 table-responsive-sm">
+//                                 <thead>
+//                                     <tr>
+//                                         <th>Action</th>
+//                                         <th>Product</th>
+//                                         <th>Name</th>
+//                                         <th>Price</th>
+//                                         <th>Qty</th>
+//                                         <th className="text-right">
+//                                             <span id="amount" className="amount">Total Amount</span>
+//                                         </th>
+//                                     </tr>
+//                                 </thead>
+//                                 <tbody>
+//                                     {carts.map((data) => (
+//                                         <tr key={data.id}>
+//                                             <td>
+//                                                 <button className="prdct-delete" onClick={() => handleDecrement(data.id)}>
+//                                                     <i className="fa fa-trash-alt"></i>
+//                                                 </button>
+//                                             </td>
+//                                             <td>
+//                                                 <div className="product-img -h-15 w-12">
+//                                                     <img src={data.imageUrl} alt="" />
+//                                                 </div>
+//                                             </td>
+//                                             <td>
+//                                                 <div className="product-name">
+//                                                     <p>{data.name}</p>
+//                                                 </div>
+//                                             </td>
+//                                             <td>{data.price}</td>
+//                                             <td>
+//                                                 <div className="prdct-qty-container">
+//                                                     <button
+//                                                         className="prdct-qty-btn"
+//                                                         type="button"
+//                                                         onClick={data.qnty <= 1 ? () => handleDecrement(data.id) : () => handleSingleDecrement(data)}
+//                                                     >
+//                                                         <i className="fa fa-minus"></i>
+//                                                     </button>
+//                                                     <input type="text" className="qty-input-box" value={data.qnty} disabled />
+//                                                     <button className="prdct-qty-btn" type="button" onClick={() => handleIncrement(data)}>
+//                                                         <i className="fa fa-plus"></i>
+//                                                     </button>
+//                                                 </div>
+//                                             </td>
+//                                             <td className="text-right">₹ {data.qnty * data.price}</td>
+//                                         </tr>
+//                                     ))}
+//                                 </tbody>
+//                                 <tfoot>
+//                                     <tr>
+//                                         <th>&nbsp;</th>
+//                                         <th colSpan={3}>&nbsp;</th>
+//                                         <th>Items In Cart: <span className="text-danger">{totalquantity}</span></th>
+//                                         <th className="text-right">Total Price: <span className="text-danger">₹ {totalprice}</span></th>
+//                                     </tr>
+//                                 </tfoot>
+//                             </table>
+//                         )}
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// }
+cart lasst edited
