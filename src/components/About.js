@@ -9,7 +9,7 @@ export default function About() {
         <img
           src={about_image}
           alt="About us"
-          className="w-full h-auto max-w-[300px] md:max-w-[600px] lg:max-w-[800px] object-cover"
+          className="w-[280px] h-auto max-w-[300px] md:max-w-[600px] lg:max-w-[800px] object-cover"
         />
       </div>
       
