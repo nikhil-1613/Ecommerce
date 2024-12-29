@@ -2,7 +2,9 @@ import React from 'react';
 import background from '../images/background.png';
 import top_image from '../images/top_image.jpg';
 import below_image from '../images/below_image.jpg';
-import { FaTruck, FaUser } from 'react-icons/fa';
+import { FaTruck, FaUser,FaStar, FaHeart} from 'react-icons/fa';
+// import { FaPotFood } from "react-icons/fa";
+
 import DesContainer from './DesContainer.js';
 
 export default function Home() {
@@ -45,13 +47,20 @@ export default function Home() {
           <h2 className="text-3xl md:text-5xl font-bold text-[#40513B]">We offer the best</h2>
           <h2 className="text-3xl md:text-5xl font-bold text-[#40513B]">Quality Products</h2>
         </div>
-        <p className="text-lg text-gray-700 leading-[32px] mb-8">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis possimus at quos hic voluptas nulla sequi ratione ut placeat ipsam, non natus minima dolores. Nesciunt praesentium animi doloremque libero! Nostrum quo numquam dolorem totam! Quidem ab fugit voluptas quaerat, illo nihil culpa sit temporibus ut exercitationem quae doloremque inventore alias!</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10">
+        <p className="text-lg text-gray-700 leading-[32px] mb-8">At AKB, we pride ourselves on delivering top-quality agricultural solutions tailored to meet the needs of modern farmers. From premium fertilizers and advanced sprayers to effective pesticides and high-yield seeds, our products are designed to ensure maximum productivity and sustainability. With a commitment to quality and innovation, we help you achieve outstanding results while maintaining the highest standards of safety and environmental care. Trust us to be your partner in growth!</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-[125px] gap-y-10 p-2">
+  <DesContainer className='mr-[20px]'icon={<FaTruck />}  text="We Use New Technology" />
+  <DesContainer icon={<FaUser />} text="Reforming The Systems" />
+  <DesContainer icon={<FaHeart />} text="Making Healthy Foods" />
+  <DesContainer icon={<FaStar />} text="Ensuring Market Quality" />
+</div>
+
+        {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10">
           <DesContainer icon={<FaTruck />} text="We Use New technology" />
-          <DesContainer icon={<FaUser />} text="Reforming the systems" />
-          <DesContainer icon={<FaUser />} text="Reforming the systems" />
-          <DesContainer icon={<FaUser />} text="Reforming the systems" />
-        </div>
+          <DesContainer icon={<FaUser />} text="Reforming The Systems" />
+          <DesContainer icon={<FaHeart />} text="Making Healthy Foods" />
+          <DesContainer icon={<FaStar />} text="Ensuring Market Quality" />
+        </div> */}
       </div>
     </div>
   );

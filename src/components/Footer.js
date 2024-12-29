@@ -22,8 +22,8 @@ export default function Footer() {
             rerum esse necessitatibus ipsum ullam.<br />
             rerum esse necessitatibus ipsum ullam.
           </p>
-          <div className="flex space-x-4 md:ml-5">
-            <a href="https://www.instagram.com/" className="text-2xl"><FaInstagram /></a>
+          <div className="flex space-x-10 md:ml-5">
+            <a href="https://www.instagram.com/" className="text-2xl ml-6"><FaInstagram /></a>
             <a href="https://web.whatsapp.com/" className="text-2xl"><FaWhatsapp /></a>
             <a href="https://twitter.com" className="text-2xl"><FaTwitter /></a>
             <a href="mailto:yourmail@gmail.com" className="text-2xl"><FaEnvelope /></a>
