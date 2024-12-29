@@ -19,10 +19,12 @@ export default function About() {
           About Us
         </h2>
         <p className="mb-6 font-medium leading-relaxed">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione in velit sit dolore. Quaerat eveniet nihil exercitationem beatae architecto possimus inventore voluptatibus nesciunt autem necessitatibus hic, deleniti neque quos, aut vel? Officiis nam quia distinctio autem est a nesciunt, enim consectetur et necessitatibus placeat delectus error eius? Veniam nemo possimus earum quam dolore repellat assumenda maiores iste voluptas ex saepe obcaecati illum hic harum voluptatum doloremque corrupti, natus nesciunt rerum? Debitis, similique.
-        </p>
+        At AKB, we are dedicated to providing high-quality agricultural products that help farmers and growers achieve the best possible results. With years of experience in the agricultural industry, we specialize in offering a wide range of products including fertilizers, sprayers, pesticides, and seeds.Our mission is simple: to support sustainable farming practices and boost productivity by offering only the best solutions for your agricultural needs. We work closely with trusted suppliers to ensure that every product we offer meets the highest standards of quality, safety, and effectiveness.
+ </p>
         <p className="mb-6 font-medium leading-relaxed">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic, unde ipsam. Nobis quo corrupti harum adipisci blanditiis? Consectetur assumenda quod dignissimos doloremque commodi quam consequatur animi ea aliquam vel. Impedit iusto nesciunt quos eos esse quisquam amet sint consequuntur nihil.
+        We believe in building lasting relationships with our customers by providing personalized service, expert advice, and a commitment to innovation. Whether you’re a small-scale farmer or a large agricultural enterprise, we are here to help you grow, nurture, and succeed.
+
+Thank you for choosing us as your trusted partner in agriculture!
         </p>
 
         {/* Button */}

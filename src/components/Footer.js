@@ -15,12 +15,9 @@ export default function Footer() {
         <div className="mb-8 md:mb-0 md:w-1/2">
           <h2 className="text-2xl font-bold mb-4 md:ml-10">Get In Touch</h2>
           <p className="mb-4 md:ml-10">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit.<br />
-            Magni ea mollitia voluptatibus molestias cupiditate dolores porro, <br />
-            vel nisi eligendi accusamus a, voluptas suscipit repellat quisquam<br />
-            rerum esse necessitatibus ipsum ullam.<br />
-            rerum esse necessitatibus ipsum ullam.<br />
-            rerum esse necessitatibus ipsum ullam.
+          "Growing Your Future with Quality Agricultural Products"<br></br>
+          Explore our range of fertilizers, sprayers, pesticides, and <br></br>
+          seeds designed to boost your farm's productivity and <br></br>ensure long-term success.
           </p>
           <div className="flex space-x-10 md:ml-5">
             <a href="https://www.instagram.com/" className="text-2xl ml-6"><FaInstagram /></a>
@@ -50,10 +47,9 @@ export default function Footer() {
             </button>
           </form>
           <p className="mt-4">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit.<br />
-            Dolorum sint harum dignissimos<br />
-            accusamus veritatis iste.
-          </p>
+          "We’d Love to Hear From You!<br></br>
+          Have any questions or feedback?<br></br>
+          Reach out to us – your thoughts help us serve you better." </p>
         </div>
       </div>
     </div>
