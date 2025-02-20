@@ -1,5 +1,6 @@
 import React from 'react';
 import background from '../images/background.png';
+import back from '../images/back.png'
 import top_image from '../images/top_image.jpg';
 import below_image from '../images/below_image.jpg';
 import { FaTruck, FaUser,FaStar, FaHeart} from 'react-icons/fa';
@@ -12,7 +13,7 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center mb-5">
       {/* Background Image Container */}
       <div className="relative w-full h-[660px] overflow-hidden">
-        <img src={background} alt="" className="absolute inset-0 object-cover w-full h-full" />
+        <img src={back} alt="" className="absolute inset-0 object-cover w-full h-full" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">We Are</h1>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Akhila Balaji Enterprises</h1>

@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
 import { ToastContainer, toast } from 'react-toastify';
@@ -92,18 +94,31 @@ export default function Products() {
 
 // import React, { useState, useEffect } from 'react';
 // import ProductCard from './ProductCard';
-// import { ToastContainer, toast } from 'react-toastify';
+// import {  toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 // import { useDispatch } from 'react-redux';
 // import { addToCart } from '../redux/features/CartSlice';
 // import { db } from '../firebase/firebaseConfig';
 // import { collection, getDocs } from 'firebase/firestore';
-// import { FaSearch } from 'react-icons/fa'; // Importing search icon
+// import { getAuth, onAuthStateChanged } from 'firebase/auth';
+// import { FaSearch } from 'react-icons/fa';
+// import { useNavigate } from 'react-router-dom';
+
 // export default function Products() {
 //     const [selectedCategory, setSelectedCategory] = useState('All');
 //     const [products, setProducts] = useState([]);
 //     const [searchTerm, setSearchTerm] = useState('');
+//     const [user, setUser] = useState(null);
 //     const dispatch = useDispatch();
+//     const navigate = useNavigate();
+//     const auth = getAuth();
+
+//     useEffect(() => {
+//         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+//             setUser(currentUser);
+//         });
+//         return () => unsubscribe();
+//     }, [auth]);
 
 //     useEffect(() => {
 //         const fetchProducts = async () => {
@@ -121,8 +136,30 @@ export default function Products() {
 //     }, []);
 
 //     const sendToCart = (product) => {
-//         dispatch(addToCart(product));
-//         toast.success("Item added to your cart");
+//         if (user) {
+//             dispatch(addToCart(product));
+//             toast.success("Item added to your cart!", {
+//                 position: "top-right",
+//                 autoClose: 3000,
+//                 hideProgressBar: false,
+//                 closeOnClick: true,
+//                 pauseOnHover: true,
+//                 draggable: true,
+//             });
+//             // toast.success("Item added to your cart", { position: "top-right", autoClose: 3000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined });
+//         } else {
+//             // toast.error("Please log in to add items to your cart!", { position: "top-right", autoClose: 3000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined });
+            
+//             toast.error("Please log in to add items to your cart!", {
+//                 position: "top-right",
+//                 autoClose: 3000,
+//                 hideProgressBar: false,
+//                 closeOnClick: true,
+//                 pauseOnHover: true,
+//                 draggable: true,
+//             });
+//             navigate('/login')
+//         }
 //     };
 
 //     const filteredProducts = products
@@ -135,11 +172,11 @@ export default function Products() {
 //         );
 
 //     return (
-//         <div className="flex flex-col items-center py-10">
+//         <div className="flex flex-col items-center py-10 px-4 md:px-10">
 //             {/* Filter and Search Bar */}
-//             <div className="flex w-full justify-center mb-8">
+//             <div className="flex flex-col md:flex-row w-full justify-center mb-8">
 //                 <select
-//                     className="mr-4 p-2 rounded-lg border-2 border-gray-300 hover:border-green-600"
+//                     className="mb-4 md:mb-0 md:mr-4 p-2 rounded-lg border-2 border-gray-300 hover:border-green-600"
 //                     value={selectedCategory}
 //                     onChange={(e) => setSelectedCategory(e.target.value)}
 //                 >
@@ -157,13 +194,12 @@ export default function Products() {
 //                     />
 //                     <FaSearch className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-500" />
 //                 </div>
-                
-//             </div> 
+//             </div>
 
 //             {/* Product List */}
-//             <div className="m-8 grid grid-cols-4 gap-6">
+//             <div className="m-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
 //                 {filteredProducts.length === 0 ? (
-//                     <p className="text-center text-red-500 text-3xl font-bold col-span-4">No products found</p>
+//                     <p className="text-center text-red-500 text-2xl font-bold col-span-full">No products found</p>
 //                 ) : (
 //                     filteredProducts.map((product) => (
 //                         <ProductCard
@@ -177,7 +213,7 @@ export default function Products() {
 //                     ))
 //                 )}
 //             </div>
-//             <ToastContainer />
+//             {/* <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} closeOnClick pauseOnHover draggable /> */}
 //         </div>
 //     );
 // }
