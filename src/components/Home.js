@@ -1,5 +1,5 @@
 import React from 'react';
-import background from '../images/background.png';
+
 import back from '../images/back.png'
 import top_image from '../images/top_image.jpg';
 import below_image from '../images/below_image.jpg';
