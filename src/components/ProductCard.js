@@ -10,7 +10,7 @@ const ProductCard = ({ imageUrl, name, description, price, onAddToCart }) => {
             description,
             price,
         });
-        // toast.success("Item added to your cart");
+        toast.success("Item added to your cart");
     };
 
     return (

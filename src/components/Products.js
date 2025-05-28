@@ -33,7 +33,7 @@ export default function Products() {
 
     const sendToCart = (product) => {
         dispatch(addToCart(product));
-        toast.success("Item added to your cart");
+        // toast.success("Item added to your cart");
     };
 
     const filteredProducts = products
